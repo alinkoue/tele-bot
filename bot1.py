@@ -4,18 +4,14 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 
-
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot,storage = MemoryStorage())
-
-
 @dp.message_handler(commands=['start', 'help'],state='*')
 async def send_welcome(message: types.Message,state: FSMContext):
     await message.answer("приветик, я эхобот!\nвведи своё имя:")
     await state.set_state('q1')
-
 @dp.message_handler(state='q1')
 async def process_name(message:types.Message,state:FSMContext):
     name = message.text

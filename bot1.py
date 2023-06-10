@@ -44,7 +44,7 @@ async def process_age(message:types.Message,state:FSMContext):
             await state.set_state('ban')
         else:
             await state.set_state('ready')
-            await message.answer("а сейяас я чат-бот! попробуй сам",reply_markup=keyboard)
+            await message.answer("а сейчас я чат-бот! попробуй сам",reply_markup=keyboard)
 
     else:
         await message.answer("не получилось распознать, пиши свой возраст цифрами")
@@ -81,6 +81,15 @@ async def _(message: types.Message, state: FSMContext):
     await message.answer (f"чтобы восстановить общение нажмите на /start", reply_markup=types.ReplyKeyboardRemove())
     if message.from_user.id in connected_users:
         connected_users.remove(message.from_user.id)
+    pass
+@dp.message_handler(Text(equals="не хочу искать"), state="connected")
+async def _(message: types.Message, state: FSMContext):
+    await message.answer (f"чтобы восстановить общение нажмите на /start", reply_markup=types.ReplyKeyboardRemove())
+    await state.set_state("*")
+    await target_state.set_state("*")
+    if message.from_user.id in connected_users:
+        connected_users.remove(message.from_user.id)
+        connected_users.remove(message.target.id)
     pass
 
 

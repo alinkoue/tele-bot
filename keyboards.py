@@ -9,3 +9,5 @@ inline_keyboard = InlineKeyboardMarkup().insert(i1).insert(i2)
 
 keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard.add(b1).add(b2)
+keyboard2 = ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard2.add(b2)

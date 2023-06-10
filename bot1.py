@@ -7,7 +7,7 @@ from aiogram.types import Message
 from aiogram.dispatcher.filters import Text, Command
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
-from keyboards import keyboard
+from keyboards import keyboard, keyboard2
 
 import logging
 
@@ -50,9 +50,10 @@ async def process_age(message:types.Message,state:FSMContext):
         await message.answer("не получилось распознать, пиши свой возраст цифрами")
 
 
-@dp.message_handler(Command(commands="find"), state="ready")
+@dp.message_handler(commands="find", state="ready")
 @dp.message_handler(Text(equals="найти собеседника"), state="ready")
 async def _(message: types.Message, state: FSMContext):
+    global keyboard
     connected_users.append(message.from_user.id)
     user_id = message.from_user.id
     targets = set(connected_users) - {user_id, }
@@ -65,19 +66,21 @@ async def _(message: types.Message, state: FSMContext):
         user_name = user_data.get('name')
         await state.update_data({"buddy": target})
         await target_state.update_data({"buddy": user_id})
-        await message.answer(f"! Вы связаны с {target_name} !", reply_markup=types.ReplyKeyboardRemove())
-        await bot.send_message(target, f"! Вы связаны с {user_name} !", reply_markup=types.ReplyKeyboardRemove())
+        await message.answer(f"! Вы связаны с {target_name} !", reply_markup=keyboard2)
+        await bot.send_message(target, f"! Вы связаны с {user_name} !", reply_markup=keyboard2)
         await state.set_state("connected")
         await target_state.set_state("connected")
         connected_users.remove(message.from_user.id)
         connected_users.remove(message.target.id)
 
     else:
-        await message.answer("Найти собеседника не получилось :(")
+        await message.answer("Найти собеседника не получилось, подожди немножко :(")
 
 @dp.message_handler(Text(equals="не хочу искать"), state="ready")
 async def _(message: types.Message, state: FSMContext):
     await message.answer (f"чтобы восстановить общение нажмите на /start", reply_markup=types.ReplyKeyboardRemove())
+    if message.from_user.id in connected_users:
+        connected_users.remove(message.from_user.id)
     pass
 
 

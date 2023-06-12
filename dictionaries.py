@@ -41,7 +41,7 @@ dictionary_a2 = {
     "airport": "аэропорт",
     'basketball': 'баскетбол',
     'candle': 'свеча',
-    'doctor': ['врач','доктор']
+    'doctor': ['врач','доктор'],
     'homeless': 'бездомный',
     'football': 'футбол',
     'gold': 'золото',

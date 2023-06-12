@@ -29,7 +29,7 @@ async def process_name(message: types.Message, state: FSMContext):
     await message.answer("напиши свой возраст")
 
 @dp.message_handler(state='q2')
-async def process_age(message:types.Message,state:FSMContext):
+async def process_level(message:types.Message,state:FSMContext):
     age = message.text
     if age.isdigit():
         await state.update_data({"age":int(age)})

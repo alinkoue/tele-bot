@@ -35,19 +35,6 @@ async def process_name(message: types.Message, state: FSMContext):
     await state.set_state('q2')
 
 
-# A2
-@dp.message_handler(Text(equals="A2"), state="q2")
-async def _(message: types.Message, state: FSMContext):
-    await state.set_state('a2')
-    await state.update_data(level="a2")
-    await message.answer(f"выбери режим: ", reply_markup=keyboard2)
-
-
-@dp.message_handler(Text(equals='vocabulary'), state="a2")
-async def start_vocabulary_test(message: types.Message, state: FSMContext):
-    await choose_word(message, state, "a2")
-
-
 async def choose_word(message: types.Message, state: FSMContext, level: str):
     level_dictionary = main_dictionary[level]
     random_key = choice(list(level_dictionary.keys()))
@@ -75,6 +62,20 @@ async def check_answer(message: types.Message, state: FSMContext):  # middleware
         await message.answer(f"Неправильно ❌\nПравильный ответ: {true_answers}")
         await choose_word(message, state, level)
 
+
+# A2
+@dp.message_handler(Text(equals="A2"), state="q2")
+async def _(message: types.Message, state: FSMContext):
+    await state.set_state('a2')
+    await state.update_data(level="a2")
+    await message.answer(f"выбери режим: ", reply_markup=keyboard2)
+
+
+@dp.message_handler(Text(equals='vocabulary'), state="a2")
+async def start_vocabulary_test(message: types.Message, state: FSMContext):
+    await choose_word(message, state, "a2")
+
+
 @dp.message_handler(Text(equals='grammar'), state="a2")
 async def _(message: types.Message, state: FSMContext):
     ...
@@ -84,17 +85,13 @@ async def _(message: types.Message, state: FSMContext):
 @dp.message_handler(Text(equals="B1"), state="q2")
 async def _(message: types.Message, state: FSMContext):
     await state.set_state('b1')
+    await state.update_data(level="b1")
     await message.answer(f"выбери режим: ", reply_markup=keyboard2)
 
 
 @dp.message_handler(Text(equals='vocabulary'), state="b1")
 async def start_vocabulary_test(message: types.Message, state: FSMContext):
-    random_key = choice(list(dictionary_b1.keys()))
-    true_answer = dictionary_b1[random_key]
-    await message.answer(f"Напишите перевод слова '{random_key}': ", reply_markup=keyboard3)
-    await state.update_data(true_answer=true_answer, random_key=random_key)
-    previous_state = state
-    await TestStates.waiting_for_answer.set()
+    await choose_word(message, state, "b1")
 
 
 @dp.message_handler(Text(equals='grammar'), state="b1")
@@ -104,13 +101,16 @@ async def _(message: types.Message, state: FSMContext):
 
 # B2
 @dp.message_handler(Text(equals='vocabulary'), state="b2")
-async def start_vocabulary_test(message: types.Message, state: FSMContext):
-    ...
+async def _(message: types.Message, state: FSMContext):
+    await state.set_state('b2')
+    await state.update_data(level="b2")
+    await message.answer(f"выбери режим: ", reply_markup=keyboard2)
 
 
 @dp.message_handler(Text(equals='grammar'), state="b2")
-async def _(message: types.Message, state: FSMContext):
-    ...
+async def start_vocabulary_test(message: types.Message, state: FSMContext):
+    await choose_word(message, state, "b2")
+
 
 
 # test

@@ -71,9 +71,11 @@ async def _(message: types.Message, state: FSMContext):
     await message.answer(f"выбери режим: ", reply_markup=keyboard2)
 
 
-@dp.message_handler(Text(equals='vocabulary'), state="a2")
+@dp.message_handler(Text(equals='vocabulary'))
 async def start_vocabulary_test(message: types.Message, state: FSMContext):
-    await choose_word(message, state, "a2")
+    data = await state.get_data()
+    level = data['level']
+    await choose_word(message, state, level)
 
 
 @dp.message_handler(Text(equals='grammar'), state="a2")
@@ -100,6 +102,13 @@ async def _(message: types.Message, state: FSMContext):
 
 
 # B2
+@dp.message_handler(Text(equals="B2"), state="q2")
+async def _(message: types.Message, state: FSMContext):
+    await state.set_state('b2')
+    await state.update_data(level="b2")
+    await message.answer(f"выбери режим: ", reply_markup=keyboard2)
+
+
 @dp.message_handler(Text(equals='vocabulary'), state="b2")
 async def _(message: types.Message, state: FSMContext):
     await state.set_state('b2')
@@ -110,7 +119,6 @@ async def _(message: types.Message, state: FSMContext):
 @dp.message_handler(Text(equals='grammar'), state="b2")
 async def start_vocabulary_test(message: types.Message, state: FSMContext):
     await choose_word(message, state, "b2")
-
 
 
 # test

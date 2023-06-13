@@ -63,19 +63,25 @@ async def check_answer(message: types.Message, state: FSMContext):  # middleware
         await choose_word(message, state, level)
 
 
+@dp.message_handler(Text(equals='vocabulary'), state="*")
+async def start_vocabulary_test(message: types.Message, state: FSMContext):
+    data = await state.get_data()
+    level = data['level']
+    await choose_word(message, state, level)
+
+
+@dp.message_handler(Text(equals='стоп'), state="*")
+async def stop_test(message: types.Message, state: FSMContext):
+    ...
+
+
 # A2
+
 @dp.message_handler(Text(equals="A2"), state="q2")
 async def _(message: types.Message, state: FSMContext):
     await state.set_state('a2')
     await state.update_data(level="a2")
     await message.answer(f"выбери режим: ", reply_markup=keyboard2)
-
-
-@dp.message_handler(Text(equals='vocabulary'))
-async def start_vocabulary_test(message: types.Message, state: FSMContext):
-    data = await state.get_data()
-    level = data['level']
-    await choose_word(message, state, level)
 
 
 @dp.message_handler(Text(equals='grammar'), state="a2")
@@ -91,11 +97,6 @@ async def _(message: types.Message, state: FSMContext):
     await message.answer(f"выбери режим: ", reply_markup=keyboard2)
 
 
-@dp.message_handler(Text(equals='vocabulary'), state="b1")
-async def start_vocabulary_test(message: types.Message, state: FSMContext):
-    await choose_word(message, state, "b1")
-
-
 @dp.message_handler(Text(equals='grammar'), state="b1")
 async def _(message: types.Message, state: FSMContext):
     ...
@@ -103,13 +104,6 @@ async def _(message: types.Message, state: FSMContext):
 
 # B2
 @dp.message_handler(Text(equals="B2"), state="q2")
-async def _(message: types.Message, state: FSMContext):
-    await state.set_state('b2')
-    await state.update_data(level="b2")
-    await message.answer(f"выбери режим: ", reply_markup=keyboard2)
-
-
-@dp.message_handler(Text(equals='vocabulary'), state="b2")
 async def _(message: types.Message, state: FSMContext):
     await state.set_state('b2')
     await state.update_data(level="b2")

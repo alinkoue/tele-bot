@@ -1,0 +1,14 @@
+[Unit]
+Description=Telegram Bot
+After=network.target
+
+[Service]
+User=alina
+Group=alina
+
+WorkingDirectory=/home/alina/tele-bot/
+Environment="PYTHONPATH=/home/alina/tele-bot/"
+ExecStart=/home/alina/tele-bot/.venv/bin/python /home/alina/tele-bot/english_bot.py
+
+[Install]
+WantedBy=multi-user.target

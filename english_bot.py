@@ -34,6 +34,11 @@ async def process_name(message: types.Message, state: FSMContext):
     await message.answer(f"приятно познакомиться :)\n{name}, знаешь свой уровень?", reply_markup=keyboard)
     await state.set_state('q2')
 
+@dp.message_handler(Text(equals='стоп'), state="*")
+async def process_name(message: types.Message, state: FSMContext):
+    await message.answer(f"выбери уровень: ", reply_markup=keyboard)
+    await state.set_state('q2')
+
 
 async def choose_word(message: types.Message, state: FSMContext, level: str):
     level_dictionary = main_dictionary[level]

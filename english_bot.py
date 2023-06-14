@@ -6,9 +6,10 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher.filters import Text, Command
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
-from keyboard_eng import keyboard, keyboard2, keyboard3
+from keyboard_eng import keyboard, keyboard2, keyboard3, keyboard4
 from dictionaries import main_dictionary
 import logging
+from test_test import questions_x_answers
 
 logging.basicConfig(level=logging.INFO)
 
@@ -33,6 +34,7 @@ async def process_name(message: types.Message, state: FSMContext):
     await state.update_data(name=name)
     await message.answer(f"приятно познакомиться :)\n{name}, знаешь свой уровень?", reply_markup=keyboard)
     await state.set_state('q2')
+
 
 @dp.message_handler(Text(equals='стоп'), state="*")
 async def process_name(message: types.Message, state: FSMContext):
@@ -64,7 +66,8 @@ async def check_answer(message: types.Message, state: FSMContext):  # middleware
             await choose_word(message, state, level)
             break
     else:
-        await message.answer(f"Неправильно ❌\nПравильный ответ: {true_answers}")
+        text = ", ".join(true_answers)
+        await message.answer(f"Неправильно ❌\nПравильный ответ: {text}")
         await choose_word(message, state, level)
 
 
@@ -75,9 +78,7 @@ async def start_vocabulary_test(message: types.Message, state: FSMContext):
     await choose_word(message, state, level)
 
 
-@dp.message_handler(Text(equals='стоп'), state="*")
-async def stop_test(message: types.Message, state: FSMContext):
-    ...
+
 
 
 # A2
@@ -116,22 +117,47 @@ async def _(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(Text(equals='grammar'), state="b2")
-async def start_vocabulary_test(message: types.Message, state: FSMContext):
+async def start_grammar_test(message: types.Message, state: FSMContext):
     await choose_word(message, state, "b2")
 
 
 # test
 @dp.message_handler(Text(equals="не знаю"), state="q2")
 async def _(message: types.Message, state: FSMContext):
-    await state.set_state('xx')
-    await message.answer(f" сейчас тебе нужно будет пройти тест", reply_markup=ReplyKeyboardRemove())
+    await message.answer(f"Сейчас тебе нужно будет пройти тест.", reply_markup=keyboard4)
+    await state.update_data(current_question=0, correct=0)
+    await write_question(message, state)
+    await state.set_state('wait_answer')
 
 
-@dp.message_handler(state='xx')
-async def process_age(message: types.Message, state: FSMContext):
-    # total = 0
-    # for i in range
-    ...
+@dp.message_handler(state="wait_answer")
+async def _(message: types.Message, state: FSMContext):
+    data = await state.get_data()
+    current_question = data["current_question"]
+    correct = data["correct"]
+    if current_question + 1 >= len(questions_x_answers):
+        if correct <= 5:
+            level_test = "твой уровень английского А2"
+        elif 5 < correct <= 11:
+            level_test = "твой уровень английского B1"
+        else:
+            level_test = "твой уровень английского B2"
+        await message.answer(f"тест закончен: правильных ответов {correct}\n{level_test}", reply_markup=keyboard3)
+        await state.reset_state()
+        return
+
+    question, answer = questions_x_answers[current_question]
+    if message.text == answer:
+        await state.update_data(correct=correct + 1)
+    await state.update_data(current_question=current_question + 1)
+    await write_question(message, state)
+
+
+async def write_question(message: types.Message, state: FSMContext):
+    data = await state.get_data()
+    current_question = data["current_question"]
+    question, answer = questions_x_answers[current_question]
+    await message.answer(f"{question}")
 
 
 if __name__ == '__main__':

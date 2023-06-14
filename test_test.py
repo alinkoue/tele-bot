@@ -14,7 +14,7 @@ q = [
     "13. Select the word that best defines the following idiom:\n\nTo turn a blind eye.\na. To ignore something intentionally.\nb. To look carefully at something.\nc. To be very emotional.\nd. To be very happy.",
     "14. Choose the correct word to complete the idiom:\n\nLet the cat out of the ________\n\na. bag\nb. box\nc. cage\nd. basket",
     "15. Select the word that correctly completes the sentence:\n\nShe has a ________ of friends from all over the world.\n\na. network\nb. bunch\nc. group\nd. gang",
-    "16. This house is _______ than that one.\n\na. more big\nb. bigger\nc. more bigger\nd. bigger"
+    "16. This house is _______ than that one.\n\na. more big\nb. bigger\nc. more bigger\nd. biger"
 
 ]
 

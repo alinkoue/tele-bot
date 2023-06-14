@@ -214,7 +214,7 @@ dictionary_b2 = {
     "harassment": "домогательство"
 }
 
-main_dictionary = {
+vocabular_dictionary = {
     "a2": dictionary_a2,
     "b1": dictionary_b1,
     "b2": dictionary_b2
@@ -253,7 +253,7 @@ gr_b2 = {
     "I suggest that she _____ (went/go/has gone/does go)  to Canada with us.": "go",
     "I _______ (will have finished/am going to finish/will finish/intend to finish)the project by the end of the week.": "will have finished",
     "If he ______ (didn’t lose/wasn’t losing/hadn’t been lost/hadn’t lost) his job, he wouldn’t be in money difficulties now.":"hadn’t lost",
-    "This is the first time I ______ (saw/see/have seen/am going to see) her cry.":"have seen",
+    "This is the first time I ______ (saw/see/have seen/am going to see) her cry.": "have seen",
     "Hardly ________ (I had reached/had I reached/I did reach/I reached) the house when I saw that she hadn’t locked the door.":"had I reached",
     "That is the last time I ______ (had lent/lent/have lent/am lending) you money, bro!":"am lending",
     "It is impossible to attend _____ (to, of/–, about/to, about/–, of) a task if you are worrying _____ something else.":"to, about",
@@ -262,4 +262,10 @@ gr_b2 = {
     "You ________ (should have done/must have done/can’t have done/might have done) it. But you ignored my request. Now we are in trouble again!":"should have done",
     "There are eight pieces of fruit in my basket. One is an orange, one is a banana and ______ (others/the other/another/the others) is an apple.":"another",
     "– I wish you _________ (didn’t work/don’t work/hadn’t worked/wouldn’t work) on Sundays! Why don’t you stop?":"wouldn’t work"
+}
+
+grammar_dictionary = {
+    "a2": gr_a2,
+    "b1": gr_b1,
+    "b2": gr_b2
 }

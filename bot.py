@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher.filters import Text, Command
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
-from keyboard_eng import keyboard, keyboard2, keyboard3, keyboard4
+from keyboards import keyboard, keyboard2, keyboard3, keyboard4
 from dictionaries import grammar_dictionary, vocabular_dictionary
 import logging
 from test_test import questions_x_answers

@@ -124,7 +124,7 @@ dictionary_b1 = {
     "tiny": "крошечный",
     "to survive": "выживать",
     "to lose": "терять",
-    "mysterious": "загадочный",
+    "mysterious": ["загадочный","тайный"],
     "to compare": "сравнивать",
     "to cure": "лечить",
     "to avoid": "избегать",

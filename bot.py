@@ -32,7 +32,7 @@ class TestStates(StatesGroup):
 async def send_welcome(message: types.Message):
     """обработчик запуска бота, устанавливает state start_state"""
     await TestStates.start_state.set()
-    await message.answer("Hi! Я твой помошник в изучении английского языка")
+    await message.answer("Hi! Я твой помощник в изучении английского языка")
     await message.answer("Как тебя зовут?")
 
 

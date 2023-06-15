@@ -182,11 +182,11 @@ async def _(message: types.Message, state: FSMContext):
     correct = data["correct"]
     if current_question + 1 >= len(questions_x_answers):
         if correct <= 5:
-            level_test = "твой уровень английского А2"
+            level_test = "твой уровень английского А2 📒✏️"
         elif 5 < correct <= 11:
-            level_test = "твой уровень английского B1"
+            level_test = "молодец,твой уровень английского B1 📚"
         else:
-            level_test = "твой уровень английского B2"
+            level_test = "ого, твой уровень английского B2 📕🖍"
         await message.answer(f"тест закончен: правильных ответов {correct}\n{level_test}", reply_markup=keyboard3)
         await state.reset_state()
         return
